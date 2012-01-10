@@ -17,10 +17,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "crc32.h"
 
 
-static unsigned long crc32tab[256] = {
+static uint32_t crc32tab[256] = {
 	0x00000000, 0x77073096, 0xee0e612c, 0x990951ba,
 	0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
 	0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988,
@@ -88,25 +89,28 @@ static unsigned long crc32tab[256] = {
 };
 
 
-unsigned long crc32_buf(const void *buf, long len){
-	unsigned long crc = ~0;
-	unsigned char *p = (unsigned char*)buf;
+uint32_t crc32_buf(const void *buf, size_t size)
+{
+	uint32_t crc = ~0;
+	const uint8_t *p = buf;
 
-	while (len--) crc = (crc >> 8) ^ crc32tab[(crc ^ (*p++)) & 0xff];
+	while (size--) crc = (crc >> 8) ^ crc32tab[(crc ^ (*p++)) & 0xFF];
 	return ~crc;
 }
 
-
-unsigned long crc32_file(const char *filename){
-	unsigned long crc = ~0;
+uint32_t crc32_file(const char *filename)
+{
+	uint32_t crc = ~0;
 	FILE *f;
-	int c;
+    char c;
 	f = fopen(filename,"rb");
-	if (f){
-		while ((c=fgetc(f)) != EOF) crc = (crc >> 8) ^ crc32tab[(crc ^ c) & 0xff];
-               fclose(f);
-
-          }
-	      return ~crc;
-     }
+	if (f) {
+        while ((c=fgetc(f)) != EOF) {
+            crc = (crc >> 8) ^ crc32tab[(crc ^ c) & 0xFF];
+        }
+        fclose(f);
+    }
+    printf(" Exiting with %x\n", crc);
+    return ~crc;
+}
 

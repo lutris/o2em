@@ -2,7 +2,8 @@ CC = gcc
 
 CFLAGS = -O3 -Wall -fomit-frame-pointer -I/usr/include
 LFLAGS = -s
-LIBALLEG = /usr/lib/liballeg.so.4.2 -lalleg_unsharable
+#LIBALLEG = /usr/lib/liballeg.so.4.2 -lalleg_unsharable
+LIBS=`allegro-config --libs`
 
 
 all: o2em dis48
@@ -11,8 +12,8 @@ clean:
 	rm -f audio.o cpu.o cset.o keyboard.o main.o table.o vdc.o vmachine.o debug.o timefunc.o voice.o crc32.o vpp_cset.o vpp.o score.o dis48.o
 
 
-o2em:	audio.o cpu.o cset.o keyboard.o main.o table.o vdc.o vmachine.o debug.o timefunc.o voice.o crc32.o vpp_cset.o vpp.o score.o 
-	$(CC) $(LFLAGS) audio.o cpu.o cset.o keyboard.o main.o table.o vdc.o vmachine.o debug.o timefunc.o voice.o crc32.o vpp_cset.o vpp.o score.o -o o2em $(LIBALLEG)
+o2em:	audio.o cpu.o cset.o keyboard.o main.o table.o vdc.o vmachine.o debug.o timefunc.o voice.o crc32.o vpp_cset.o vpp.o score.o
+	$(CC) $(LFLAGS) audio.o cpu.o cset.o keyboard.o main.o table.o vdc.o vmachine.o debug.o timefunc.o voice.o crc32.o vpp_cset.o vpp.o score.o -o o2em $(LIBS)
 
 dis48:	dis48.o table.o
 	$(CC) $(LFLAGS) dis48.o table.o -o dis48
@@ -23,28 +24,28 @@ audio.o:	audio.c audio.h cpu.h types.h config.h vmachine.h
 
 cpu.o:	cpu.c cpu.h types.h vmachine.h keyboard.h voice.h vdc.h vpp.h
 	$(CC) $(CFLAGS) -c cpu.c -o cpu.o
-	
-cset.o:	cset.c cset.h types.h 
+
+cset.o:	cset.c cset.h types.h
 	$(CC) $(CFLAGS) -c cset.c -o cset.o
-	
+
 debug.o:	debug.c debug.h cpu.h keyboard.h vmachine.h audio.h vdc.h table.h
 	$(CC) $(CFLAGS) -c debug.c -o debug.o
-	
+
 dis48.o:	dis48.c types.h table.h
 	$(CC) $(CFLAGS) -c dis48.c -o dis48.o
-	
+
 keyboard.o:	keyboard.c keyboard.h types.h cpu.h vmachine.h vdc.h audio.h voice.h vpp.h
 	$(CC) $(CFLAGS) -c keyboard.c -o keyboard.o
-	
+
 main.o:	main.c crc32.h audio.h vmachine.h config.h vdc.h cpu.h debug.h keyboard.h voice.h
 	$(CC) $(CFLAGS) -c main.c -o main.o
-	
+
 table.o:	table.c table.h cpu.h
 	$(CC) $(CFLAGS) -c table.c -o table.o
-	
+
 vdc.o:	vdc.c vdc.h types.h vmachine.h config.h keyboard.h cset.h timefunc.h cpu.h vpp.h
 	$(CC) $(CFLAGS) -c vdc.c -o vdc.o
-	
+
 vmachine.o:	vmachine.c vmachine.h audio.h types.h cpu.h keyboard.h config.h debug.h vdc.h vpp.h timefunc.h voice.h
 	$(CC) $(CFLAGS) -c vmachine.c -o vmachine.o
 

@@ -5,12 +5,12 @@
                   an Odyssey 2 & Videopac+ emulator
 
       copyright 1996/1998 by Daniel Boris <dboris@comcast.net>
-         
+
  Developed by Daniel Boris, Andre de la Rocha and Arlindo Oliveira
-    
-                 This package is released under the 
-             Clarified Artistic License (see license.txt)
- 
+
+                 This package is released under the
+             Clarified Artistic License (see COPYING)
+
 			 Project Homepage
                      http://o2em.sourceforge.net
 
@@ -24,7 +24,7 @@ la Rocha and since version 1.16 it has been developed by Arlindo M. de Oliveira.
 This release includes the source code for O2EM v1.18 and binaries for
 Windows. The sources probably can also be compiled under other platforms
 that support the Allegro game library. The binary version for Linux/X11 and
-DOS continues available just until the version 1.16. 
+DOS continues available just until the version 1.16.
 
 With the Windows binary, the latest stable version of the Allegro DLL is also
 included. To use the Linux version you must get the Allegro library for Linux
@@ -59,7 +59,7 @@ Acknowledgments:
 
 
 We wish to thank the following people:
-    
+
 	Keita Iida (Keita/Pooka/Fygar)
 	for his enthusiasm, for the O2EM beta testing, and general encouragement.
 
@@ -74,7 +74,7 @@ We wish to thank the following people:
 
 	Jason F. Gohlke
 	for providing valuable Voice tech info as well as the voice samples.
-        
+
 	Soeren Gust : For sending his patches to O2EM and for technical
 	information about the console. Part of his technical document was
 	used to implement VP+ emulation.
@@ -95,10 +95,10 @@ We wish to thank the following people:
 
 	Zimmerman : for sending his patch to add key customization, on which
 	v1.00 customization was based.
-	
+
 	Arlindo de Oliveira : for sending patches to fix bugs in O2EM and for
 	his interest in keeping the O2 emulation alive.
-	
+
 	The members of the OdysseyBR user group: for several bug reports, as
 	well for support in general.
 
@@ -108,15 +108,15 @@ Quick Setup:
 
 To get O2EM up and running quickly follow these steps:
 
-1. Unzip the O2EM archive on your hard drive, that will create the necessary 
+1. Unzip the O2EM archive on your hard drive, that will create the necessary
    standard directories: ROMS, BIOS and VOICE into the main directory O2EM118.
-2. Download the bios ROM O2ROM.BIN (or G7400.BIN, or C52.BIN, or JOPAC.BIN) 
+2. Download the bios ROM O2ROM.BIN (or G7400.BIN, or C52.BIN, or JOPAC.BIN)
    and put it into BIOS directory.
 3. Download one or more game ROMs, for example KCMUNCH.BIN for KC Munchkin and
    put the ROM in ROMS directory.
 4. From the O2EM118 directory type: o2em KCMUNCH.BIN to start the game.If wants
-   to play KC Munchkin with BIOS VP+, type: o2em KCMUNCH.BIN -g7400 
-   
+   to play KC Munchkin with BIOS VP+, type: o2em KCMUNCH.BIN -g7400
+
 ---------------------------------------------------------------------------
 Setup:
 
@@ -130,9 +130,9 @@ should be in the BIOS directory into the main directory O2EM118.
 these can not be provided. PLEASE DO NOT E-mail us asking for ROM images! All
 messages asking for ROM images will be promptly deleted.
 
-    If you wish to use Voice emulation for games like KC's Krazy Chase. 
+    If you wish to use Voice emulation for games like KC's Krazy Chase.
 Download the voice samples and unzip them into the VOICE directory
-into the main directory O2EM118. There are two sets of voice samples, 
+into the main directory O2EM118. There are two sets of voice samples,
 mainsamp.zip which is the main voice samples and sidsamp.zip which are the
 samples used by the game Sid the Spellbinder. You only need the Sid samples
 if you want voice in that game.
@@ -176,7 +176,7 @@ options:
 -bios=file    Set the file name and directory to find the console
 	      bios. By default it looks for a file named o2rom.bin.
        	      You can use a bios file from an Odyssey2, Videopac or
-       	      Videopac+ console. If you want to run VP+ games (in 
+       	      Videopac+ console. If you want to run VP+ games (in
 	      VP+ mode) then you need a VP+ bios.
 
 -romdir=path  Set the directory to find the game rom. By default it
@@ -191,7 +191,7 @@ options:
 
 -g7400        Start the emulator with VP+ bios (default for detected VP+ only games).
 
--jopac        Start the emulator with french VP+ bios. 
+-jopac        Start the emulator with french VP+ bios.
 
 -euro         This option enables the use of European timing / 50Hz mode.
               This option is usually not needed as most of the games that
@@ -215,10 +215,10 @@ options:
 	      So this option is to be used only with games that are currently
 	      unknown to O2EM. Do not enable it as default, as it will make
 	      all the 4kb games that do not use this special mode crash.
-              
+
 -s0=QUIT,PAUSE,DEBUG,RESET,SCREENCAP,SAVE,LOAD,INJECT_HIGH
-	      These option defines which keys are used for some of the system 
-	      keys, if you use this option, you have to enter all 8 keys, to 
+	      These option defines which keys are used for some of the system
+	      keys, if you use this option, you have to enter all 8 keys, to
 	      override the original keys (ESC,F1,F4,F5,F8,F2,F3,F6)
 
 -s1=mode/keys Define stick 1 mode/keys
@@ -235,7 +235,7 @@ options:
                 2=Default Left keys (W,S,A,D,SPACE)
                 3=Joystick
               Example: -s1=1 -s2=3
-                                 
+
               You can also specify a list of 5 keyboard codes that will
               be used to emulate the joystick, separated by comas
               (without spaces), using this order : UP,DOWN,LEFT,RIGHT,FIRE.
@@ -259,7 +259,7 @@ options:
 
 -savefile=file	      filename for save/load state
 
-                   
+
 
 
 ----------------------------------------------------------------------------

@@ -25,7 +25,7 @@
 #include "score.h"
 
 /*--------------------------------------------------
-          Calculate Score from given Values
+          Calculate Score from given Values 
              Scoretype = abcd:
 	ramtype		a = 1: ext ram / 2: int ram
 	valuetype	b = 1: 1 Byte each Digit  / 2: 1/2 Byte each Digit
@@ -106,16 +106,17 @@ void save_highscore(int highscore,char *scorefile)
 
 	highscore = highscore==app_data.default_highscore?0:highscore;
 
-    fn = fopen(scorefile,"w");
+        fn = fopen(scorefile,"w");
 	if (fn==NULL) {
 		fprintf(stderr,"Error opening highscore-file %s: %i\n",scorefile,errno);
 		exit(EXIT_FAILURE);
 	}
-
-	if (fprintf(fn,"%i",highscore)<=0) {
+	
+	if (fprintf(fn,"%i",highscore)<=0)
+	{
 		fprintf(stderr,"Error writing to highscore-file %s: %i\n",scorefile,errno);
 		exit(EXIT_FAILURE);
-	}
+	}	
 
 	fclose(fn);
 }
