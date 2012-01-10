@@ -206,8 +206,8 @@ int main(int argc, char *argv[])
         app_data.crc = crc32_file(file);
         crcx = app_data.crc;
         suck_roms();
-        /********************** BIOSs if Launcher running... */
         launcher_flag_b = strchr(bios, '\\');
+
         if (!launcher_flag_b) {
             k = strchr(biosdir, '/');
             if (k != 0) {
@@ -902,8 +902,7 @@ int suck_roms()
 int identify_bios(char *biossux)
 {
     app_data.crc = crc32_file(biossux);
-    //if (app_data.crc == 0x8016A315) {
-    if (app_data.crc == 0xd048e9e3) {
+    if (app_data.crc == 0x8016A315) {
         strcpy(odyssey2, biossux);
         o2flag = 1;
     }
