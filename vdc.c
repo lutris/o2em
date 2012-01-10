@@ -60,7 +60,7 @@ static PALETTE colors, oldcol;
 /* The pointer to the graphics buffer */
 static Byte *vscreen = NULL;
 
-static BITMAP *bmp, *bmpcache;
+static BITMAP *bitmap, *bitmap_cache;
 static int cached_lines[MAXLINES];
 
 Byte coltab[256];
@@ -224,7 +224,7 @@ void clearscr(void)
     acquire_screen();
     clear(screen);
     release_screen();
-    clear(bmpcache);
+    clear(bitmap_cache);
 }
 
 INLINE void mputvid(unsigned int ad, unsigned int len, Byte d, Byte c)
@@ -364,7 +364,7 @@ void finish_display(void)
     int x, y, sn;
     static int cache_counter = 0;
 
-    vpp_finish_bmp(vscreen, 9, 5, BMPW - 9, BMPH - 5, bmp->w, bmp->h);
+    vpp_finish_bmp(vscreen, 9, 5, BMPW - 9, BMPH - 5, bitmap->w, bitmap->h);
 
     if (show_fps) {
         static long last = -1, index = 0, curr = 0, t = 0;
@@ -377,20 +377,20 @@ void finish_display(void)
             last = t;
         }
         if (curr) {
-            textprintf_ex(bmp, font, 20, 4, 7, 0, "FPS :%3d",
+            textprintf_ex(bitmap, font, 20, 4, 7, 0, "FPS :%3d",
                     (int) ((200.0 * TICKSPERSEC) / curr + 0.5));
         }
     }
 
-    for (y = 0; y < bmp->h; y++) {
-        cached_lines[y] = !memcmp(bmpcache->line[y], bmp->line[y], bmp->w);
+    for (y = 0; y < bitmap->h; y++) {
+        cached_lines[y] = !memcmp(bitmap_cache->line[y], bitmap->line[y], bitmap->w);
         if (!cached_lines[y])
-            memcpy(bmpcache->line[y], bmp->line[y], bmp->w);
+            memcpy(bitmap_cache->line[y], bitmap->line[y], bitmap->w);
     }
 
     for (y = 0; y < 10; y++)
-        cached_lines[(y + cache_counter) % bmp->h] = 0;
-    cache_counter = (cache_counter + 10) % bmp->h;
+        cached_lines[(y + cache_counter) % bitmap->h] = 0;
+    cache_counter = (cache_counter + 10) % bitmap->h;
 
     acquire_screen();
 
@@ -398,18 +398,18 @@ void finish_display(void)
 
     for (y = 0; y < WNDH; y++) {
         if (!cached_lines[y + 2])
-            stretch_blit(bmp, screen, 7, 2 + y, WNDW, 1, 0, y * wsize,
+            stretch_blit(bitmap, screen, 7, 2 + y, WNDW, 1, 0, y * wsize,
                     WNDW * wsize, wsize - sn);
     }
 
     if (sn) {
         for (y = 0; y < WNDH; y++) {
             if (!cached_lines[y + 2]) {
-                for (x = 0; x < bmp->w; x++)
-                    bmp->line[y + 2][x] += 16;
-                stretch_blit(bmp, screen, 7, 2 + y, WNDW, 1, 0,
+                for (x = 0; x < bitmap->w; x++)
+                    bitmap->line[y + 2][x] += 16;
+                stretch_blit(bitmap, screen, 7, 2 + y, WNDW, 1, 0,
                         (y + 1) * wsize - 1, WNDW * wsize, 1);
-                memcpy(bmp->line[y + 2], bmpcache->line[y + 2], bmp->w);
+                memcpy(bitmap->line[y + 2], bitmap_cache->line[y + 2], bitmap->w);
             }
         }
     }
@@ -645,17 +645,17 @@ void window_close_hook(void)
 }
 static void txtmsg(int x, int y, int c, const char *s)
 {
-    textout_centre_ex(bmp, font, s, x + 1, y + 1, makecol(255, 0, 0),
+    textout_centre_ex(bitmap, font, s, x + 1, y + 1, makecol(255, 0, 0),
             makecol(0, 0, 0));
-    textout_centre_ex(bmp, font, s, x, y, c, makecol(0, 0, 0));
+    textout_centre_ex(bitmap, font, s, x, y, c, makecol(0, 0, 0));
 }
 void display_bg(void)
 {
-    rectfill(bmp, 20, 72, 311, 172, 9 + 32);
-    line(bmp, 20, 72, 311, 72, 15 + 32);
-    line(bmp, 20, 72, 20, 172, 15 + 32);
-    line(bmp, 21, 172, 311, 172, 1 + 32);
-    line(bmp, 311, 172, 311, 72, 1 + 32);
+    rectfill(bitmap, 20, 72, 311, 172, 9 + 32);
+    line(bitmap, 20, 72, 311, 72, 15 + 32);
+    line(bitmap, 20, 72, 20, 172, 15 + 32);
+    line(bitmap, 21, 172, 311, 172, 1 + 32);
+    line(bitmap, 311, 172, 311, 72, 1 + 32);
 }
 
 void abaut(void)
@@ -701,11 +701,11 @@ void display_msg(char *msg, int waits)
 {
     mute_audio();
     mute_voice();
-    rectfill(bmp, 60, 72, 271, 90, 9 + 32);
-    line(bmp, 60, 72, 271, 72, 15 + 32);
-    line(bmp, 60, 72, 60, 90, 15 + 32);
-    line(bmp, 61, 90, 271, 90, 1 + 32);
-    line(bmp, 271, 90, 271, 72, 1 + 32);
+    rectfill(bitmap, 60, 72, 271, 90, 9 + 32);
+    line(bitmap, 60, 72, 271, 72, 15 + 32);
+    line(bitmap, 60, 72, 60, 90, 15 + 32);
+    line(bitmap, 61, 90, 271, 90, 1 + 32);
+    line(bitmap, 271, 90, 271, 72, 1 + 32);
     txtmsg(166, 76, 15 + 32, msg);
     finish_display();
     rest(waits * 100);
@@ -715,15 +715,15 @@ void init_display(void)
 {
     get_palette(oldcol);
     create_cmap();
-    bmp = create_bitmap(BMPW, BMPH);
-    bmpcache = create_bitmap(BMPW, BMPH);
-    if ((!bmp) || (!bmpcache)) {
+    bitmap = create_bitmap(BMPW, BMPH);
+    bitmap_cache = create_bitmap(BMPW, BMPH);
+    if ((!bitmap) || (!bitmap_cache)) {
         fprintf(stderr, "Could not allocate memory for screen buffer.\n");
         exit(EXIT_FAILURE);
     }
-    vscreen = (Byte *) bmp->dat;
-    clear(bmp);
-    clear(bmpcache);
+    vscreen = (Byte *) bitmap->dat;
+    clear(bitmap);
+    clear(bitmap_cache);
     col = (Byte *) malloc(BMPW * BMPH);
     if (!col) {
         fprintf(stderr, "Could not allocate memory for collision buffer.\n");
@@ -741,11 +741,10 @@ void init_display(void)
 /*************************** Help*/
 void help(void)
 {
-    int cnt, cntt, cnttt, way;
-    cnttt = 40;
-    cntt = 0;
-    cnt = 0;
-    way = 0;
+    int yet_another_index = 40;
+    int index = 0;
+    int counter = 0;
+    int way = 0;
     static char hl[96][70] = { "-wsize=n", " Window size (1-4)", "",
             "-fullscreen", " Full screen mode", "", "-Help",
             " This instructions", "", "-scanlines", " Enable scanlines", "",
@@ -774,47 +773,45 @@ void help(void)
             " file (highscore.txt)", "", "-score=n", " Set Highscore to n", "",
             "-savefile=file", " Load/Save State ", " from/to file" };
 
-    textout_ex(bmp, font, "O2EM v" O2EM_VERSION " Help", 26, 16, 2,
-            makecol(0, 0, 0));
-    textout_ex(bmp, font, "Use: o2em <file> [options]", 26, 26, 2,
-            makecol(0, 0, 0));
-    rect(bmp, 20, 12, 315, 228, 6);
-    line(bmp, 20, 35, 315, 35, 6);
-    for (cntt = 0; cntt < 16; cntt++) {
-        textout_ex(bmp, font, hl[cnt + cntt], 26, cnttt, 4, makecol(0, 0, 0));
-        cnttt += 12;
+    textout_ex(bitmap, font, "O2EM v" O2EM_VERSION " Help", 26, 16, 2, 0);
+    textout_ex(bitmap, font, "Use: o2em <file> [options]", 26, 26, 2, 0);
+    rect(bitmap, 20, 12, 315, 228, 6);
+    line(bitmap, 20, 35, 315, 35, 6);
+    for (index = 0; index < 16; index++) {
+        textout_ex(bitmap, font, hl[counter + index], 26, yet_another_index, 4, makecol(0, 0, 0));
+        yet_another_index += 12;
     }
-    cnttt = 40;
+    yet_another_index = 40;
     finish_display();
     do {
-        rest(5);
+        rest(25);
         if (NeedsPoll)
             poll_keyboard();
         if (key[KEY_UP]) {
-            cnt++;
-            if (cnt >= 80)
-                cnt = 80;
-            rectfill(bmp, 25, 36, 306, 227, 0);
-            for (cntt = 0; cntt < 16; cntt++) {
-                textout_ex(bmp, font, hl[cnt + cntt], 26, cnttt, 4,
+            counter++;
+            if (counter >= 80)
+                counter = 80;
+            rectfill(bitmap, 25, 36, 306, 227, 0);
+            for (index = 0; index < 16; index++) {
+                textout_ex(bitmap, font, hl[counter + index], 26, yet_another_index, 4,
                         makecol(0, 0, 0));
-                cnttt += 12;
+                yet_another_index += 12;
             }
-            cnttt = 40;
+            yet_another_index = 40;
             for (way = 0; way < 8; way++)
                 finish_display();
         }
         if (key[KEY_DOWN]) {
-            cnt--;
-            if (cnt <= 0)
-                cnt = 0;
-            rectfill(bmp, 25, 36, 306, 227, 0);
-            for (cntt = 0; cntt < 16; cntt++) {
-                textout_ex(bmp, font, hl[cnt + cntt], 26, cnttt, 4,
+            counter--;
+            if (counter <= 0)
+                counter = 0;
+            rectfill(bitmap, 25, 36, 306, 227, 0);
+            for (index = 0; index < 16; index++) {
+                textout_ex(bitmap, font, hl[counter + index], 26, yet_another_index, 4,
                         makecol(0, 0, 0));
-                cnttt += 12;
+                yet_another_index += 12;
             }
-            cnttt = 40;
+            yet_another_index = 40;
             for (way = 0; way < 8; way++)
                 finish_display();
         }
