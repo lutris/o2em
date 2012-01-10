@@ -62,7 +62,7 @@ void init_roms(void);
 void run(void);
 int savestate(char* filename);
 int loadstate(char* filename);
-
+size_t sys_fread(void * ptr, size_t size, size_t nitems, FILE * stream);
 
 extern struct resource {
 	int bank;
