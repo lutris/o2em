@@ -104,6 +104,14 @@ We wish to thank the following people:
 
 -----------------------------------------------------------------------------
 
+Building:
+
+o2em depends on Allegro, for Ubuntu / Debian, run:
+
+sudo apt-get install liballegro4.2-dev
+
+-----------------------------------------------------------------------------
+
 Quick Setup:
 
 To get O2EM up and running quickly follow these steps:
