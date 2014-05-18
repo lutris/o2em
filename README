@@ -108,7 +108,7 @@ Building:
 
 o2em depends on Allegro, for Ubuntu / Debian, run:
 
-sudo apt-get install liballegro4.2-dev
+sudo apt-get install liballegro4-dev
 
 -----------------------------------------------------------------------------
 
