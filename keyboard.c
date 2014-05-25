@@ -158,7 +158,7 @@ int joykeystab[128];
 int syskeys[8] = {0,0,0,0,0,0,0,0};
 
 void set_defjoykeys(int jn, int sc){
-    printf("Setting controller %d to %d", jn, sc);
+    printf("Setting controller %d to %d\n", jn, sc);
     if (sc) {
         // TODO : Implement Azery / Qwerty handler
         set_joykeys(jn, KEY_W, KEY_S, KEY_A, KEY_D, KEY_SPACE);

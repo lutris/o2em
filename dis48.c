@@ -65,7 +65,6 @@ int main(int argc, char **argv){
 	}
 
 	/* load image */
-
 	for(i=1; i<argc; i++)
 	{
 		if (argv[i][0] != '-')
@@ -92,7 +91,7 @@ int main(int argc, char **argv){
 			for(j = 0; j < strlen(attr); j++)
 				if(isupper(attr[j]))
 				attr[j] = tolower(attr[j]);
- 
+
 			if (!parse_option(attr, val)) exit(EXIT_FAILURE);
 		}
         }
@@ -102,7 +101,7 @@ int main(int argc, char **argv){
 		fprintf(stderr,"Error: file name missing\n");
 		exit(EXIT_FAILURE);
 	}
-	
+
     fn=fopen(file,"rb");
 	if (!fn) {
 		printf("Error loading %s\n",argv[1]);
@@ -110,13 +109,13 @@ int main(int argc, char **argv){
 	}
 	fseek(fn, 0L, SEEK_END);
 	len=ftell(fn);
-	
+
 	if (len>MAXLEN) {
 		printf("Invalid image size");
 		fclose(fn);
 		exit(0);
 	}
-	
+
 	rewind(fn);
 	if (fread(&rom[pc],1,len,fn) != (size_t)len) {
 		printf("Error loading %s\n",argv[1]);
@@ -133,19 +132,13 @@ int main(int argc, char **argv){
 	exit(0);
 }
 
-int parse_option(char *attr, char *val){
-
-	if (!strcmp(attr,"bios"))
-	{
+int parse_option(char *attr, char *val)
+{
+	if (!strcmp(attr,"bios")) {
 		pc = 0;
-	}
-	else
-	{
+	} else {
 		fprintf(stderr,"Invalid option : %s\n",attr);
 		return 0;
 	}
 	return 1;
 }
-
-
-
