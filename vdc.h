@@ -5,7 +5,7 @@
 #define BMPH 250
 #define WNDW 320
 #define WNDH 240
-/*********/
+
 #define BOX_W     MIN(512, SCREEN_W-16)
 #define BOX_H     MIN(256, (SCREEN_H-64)&0xFFF0)
 
@@ -14,7 +14,6 @@
 #define BOX_T     ((SCREEN_H - BOX_H) / 2)
 #define BOX_B     ((SCREEN_H + BOX_H) / 2)
 
-/*********/
 extern Byte coltab[];
 extern long clip_low;
 extern long clip_high;
@@ -33,8 +32,4 @@ void clear_collision(void);
 void clearscr(void);
 void abaut(void);
 void help(void);
-
-
 #endif
-
-
