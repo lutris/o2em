@@ -69,7 +69,7 @@ vpp.o: vpp.c vpp.h types.h vpp_cset.h vmachine.h vdc.h
 score.o: score.c score.h vmachine.h types.h
 	$(CC) $(CFLAGS) -c score.c -o score.o
 
-dist:
+dist: all
 	mkdir -p o2em-$(VERSION)
 	mv o2em o2em-$(VERSION)
 	mv dis48 o2em-$(VERSION)
