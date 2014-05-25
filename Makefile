@@ -75,6 +75,7 @@ dist: all
 	mv dis48 o2em-$(VERSION)
 	cp o2em.png o2em-$(VERSION)
 	cp COPYING o2em-$(VERSION)
+	cp README o2em-$(VERSION)
 	mv o2em-$(VERSION) o2em
 	tar czf o2em-$(VERSION)-$(ARCH).tar.gz o2em
 	rm -r o2em
