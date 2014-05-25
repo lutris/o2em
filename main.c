@@ -335,7 +335,7 @@ int main(int argc, char *argv[])
     }
     if (!strcmp(attr, "help") || !strcmp(attr, "HELP"))
         helpus();
-    printf("type o2em -help");
+    printf("type o2em -help\n");
     exit(EXIT_SUCCESS);
 }
 
