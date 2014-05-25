@@ -157,13 +157,13 @@ int joykeys[2][5] = {{0,0,0,0,0},{0,0,0,0,0}};
 int joykeystab[128];
 int syskeys[8] = {0,0,0,0,0,0,0,0};
 
-void set_defjoykeys(int jn, int sc){
-    printf("Setting controller %d to %d\n", jn, sc);
-    if (sc) {
+void set_defjoykeys(int stick_number, int control_scheme){
+    printf("Setting keyboard controller %d to %d\n", stick_number, control_scheme);
+    if (control_scheme) {
         // TODO : Implement Azery / Qwerty handler
-        set_joykeys(jn, KEY_W, KEY_S, KEY_A, KEY_D, KEY_SPACE);
+        set_joykeys(stick_number, KEY_W, KEY_S, KEY_A, KEY_D, KEY_SPACE);
     } else {
-        set_joykeys(jn,KEY_UP,KEY_DOWN,KEY_LEFT,KEY_RIGHT,KEY_L);
+        set_joykeys(stick_number,KEY_UP,KEY_DOWN,KEY_LEFT,KEY_RIGHT,KEY_L);
     }
 }
 
@@ -172,24 +172,31 @@ void set_defsystemkeys(void)
     set_systemkeys(KEY_F12,KEY_F1,KEY_F4,KEY_F5,KEY_F8,KEY_F2,KEY_F3,KEY_F6);
 }
 
-void set_joykeys(int jn, int up, int down, int left, int right, int fire){
-    int i,j;
-    if ((jn<0) || (jn>1)) return;
-    joykeys[jn][0] = up;
-    joykeys[jn][1] = down;
-    joykeys[jn][2] = left;
-    joykeys[jn][3] = right;
-    joykeys[jn][4] = fire;
+void set_joykeys(int stick_number, int up, int down, int left, int right, int fire){
+    printf("Setting joypad controller %d \n", stick_number);
+    int i, j;
+    if ((stick_number<0) || (stick_number>1)) {
+        return;
+    }
+    joykeys[stick_number][0] = up;
+    joykeys[stick_number][1] = down;
+    joykeys[stick_number][2] = left;
+    joykeys[stick_number][3] = right;
+    joykeys[stick_number][4] = fire;
 
-    for (i=0; i<128; i++) joykeystab[i]=0;
+    for (i=0; i<128; i++) {
+        joykeystab[i]=0;
+    }
 
-    for (j=0; j<2; j++)
+    for (j=0; j<2; j++) {
         for (i=0; i<5; i++) {
-            if ((joykeys[j][i]<1) || (joykeys[j][i]>127))
+            if ((joykeys[j][i]<1) || (joykeys[j][i]>127)) {
                 joykeys[j][i] = 0;
-            else
+            } else {
                 joykeystab[joykeys[j][i]] = 1;
+            }
         }
+    }
 }
 
 void set_systemkeys(int k_quit,int k_pause,int k_debug,int k_reset,int k_screencap,int k_save,int k_load,int k_inject)

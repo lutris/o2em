@@ -227,14 +227,14 @@ int main(int argc, char *argv[])
                 strcpy(bios, g7400);
             }
             if ((!o2flag) && (!jopflag) && (!c52flag) && (!g74flag)) {
-                printf("\ndir '%s' without BIOS !", biosdir);
+                printf("\ndir '%s' without BIOS !\n", biosdir);
                 exit(EXIT_FAILURE);
             }
             printf("BIOS found:\n");
             if (!strcmp(bios, "g7400")) {
                 strcpy(bios, g7400);
                 if (g74flag != 1) {
-                    printf("\nG7400 BIOS not found !");
+                    printf("\nG7400 BIOS not found !\n");
                     exit(EXIT_FAILURE);
                 }
             }
@@ -243,7 +243,7 @@ int main(int argc, char *argv[])
             if (!strcmp(bios, "c52")) {
                 strcpy(bios, c52);
                 if (c52flag != 1) {
-                    printf("\nC52 BIOS not found !");
+                    printf("\nC52 BIOS not found !\n");
                     exit(EXIT_FAILURE);
                 }
             }
@@ -252,7 +252,7 @@ int main(int argc, char *argv[])
             if (!strcmp(bios, "jopac")) {
                 strcpy(bios, jopac);
                 if (jopflag != 1) {
-                    printf("\nJOPAC BIOS not found !");
+                    printf("\nJOPAC BIOS not found !\n");
                     exit(EXIT_FAILURE);
                 }
             }
@@ -343,7 +343,7 @@ END_OF_MAIN ();
 
 int parse_option(char *attr, char *val)
 {
-    int t;
+    int control_scheme;
     if (!strcmp(attr, "nolimit")) {
         app_data.limit = !(val[0] != '0');
     } else if (!strcmp(attr, "nosound")) {
@@ -355,22 +355,22 @@ int parse_option(char *attr, char *val)
     } else if (!strcmp(attr, "debug")) {
         app_data.debug = (val[0] != '0');
     } else if ((!strcmp(attr, "s1")) || (!strcmp(attr, "s2"))) {
-        int sn;
-        sn = (!strcmp(attr, "s1")) ? 0 : 1;
+        int stick_number;
+        stick_number = (!strcmp(attr, "s1")) ? 0 : 1;
         if (strlen(val) < 2) {
-            t = -1;
-            sscanf(val, "%d", &t);
-            if ((t >= 0) && (t <= 3)) {
-                if ((t == 1) || (t == 2)) {
-                    app_data.stick[sn] = 1;
-                    set_defjoykeys(sn, t - 1);
+            control_scheme = -1;
+            sscanf(val, "%d", &control_scheme);
+            if ((control_scheme >= 0) && (control_scheme <= 3)) {
+                if ((control_scheme == 1) || (control_scheme == 2)) {
+                    app_data.stick[stick_number] = 1;
+                    set_defjoykeys(stick_number, control_scheme - 1);
                 } else {
-                    app_data.stick[sn] = (t == 0) ? 0 : 2;
-                    if (t == 3) {
-                        app_data.sticknumber[sn] = app_data.sticknumber[0]
+                    app_data.stick[stick_number] = (control_scheme == 0) ? 0 : 2;
+                    if (control_scheme == 3) {
+                        app_data.sticknumber[stick_number] = app_data.sticknumber[0]
                                 + app_data.sticknumber[1] + 1;
                     }
-                    set_joykeys(sn, 0, 0, 0, 0, 0);
+                    set_joykeys(stick_number, 0, 0, 0, 0, 0);
                 }
             } else {
                 fprintf(stderr, "Invalid value for option %s\n", attr);
@@ -417,8 +417,8 @@ int parse_option(char *attr, char *val)
                         attr);
                 return 0;
             }
-            app_data.stick[sn] = 1;
-            set_joykeys(sn, codes[0], codes[1], codes[2], codes[3], codes[4]);
+            app_data.stick[stick_number] = 1;
+            set_joykeys(stick_number, codes[0], codes[1], codes[2], codes[3], codes[4]);
         }
     } else if (!strcmp(attr, "s0")) {
         char *p, *s;
@@ -463,41 +463,41 @@ int parse_option(char *attr, char *val)
         set_systemkeys(codes[0], codes[1], codes[2], codes[3], codes[4],
                 codes[5], codes[6], codes[7]);
     } else if (!strcmp(attr, "speed")) {
-        t = -1;
-        sscanf(val, "%d", &t);
-        if ((t > 0) && (t <= 10000))
-            app_data.speed = t;
+        control_scheme = -1;
+        sscanf(val, "%d", &control_scheme);
+        if ((control_scheme > 0) && (control_scheme <= 10000))
+            app_data.speed = control_scheme;
         else {
             fprintf(stderr, "Invalid value for option %s\n", attr);
             return 0;
         }
     } else if (!strcmp(attr, "svolume")) {
-        t = -1;
-        sscanf(val, "%d", &t);
-        if ((t >= 0) && (t <= 100))
-            app_data.svolume = t;
+        control_scheme = -1;
+        sscanf(val, "%d", &control_scheme);
+        if ((control_scheme >= 0) && (control_scheme <= 100))
+            app_data.svolume = control_scheme;
         else {
             fprintf(stderr, "Invalid value for option %s\n", attr);
             return 0;
         }
-        if (t == 0)
+        if (control_scheme == 0)
             app_data.sound_en = 0;
     } else if (!strcmp(attr, "vvolume")) {
-        t = -1;
-        sscanf(val, "%d", &t);
-        if ((t >= 0) && (t <= 100))
-            app_data.vvolume = t;
+        control_scheme = -1;
+        sscanf(val, "%d", &control_scheme);
+        if ((control_scheme >= 0) && (control_scheme <= 100))
+            app_data.vvolume = control_scheme;
         else {
             fprintf(stderr, "Invalid value for option %s\n", attr);
             return 0;
         }
-        if (t == 0)
+        if (control_scheme == 0)
             app_data.voice = 0;
     } else if (!strcmp(attr, "wsize")) {
-        t = -1;
-        sscanf(val, "%d", &t);
-        if ((t > 0) && (t < 5)) {
-            app_data.wsize = t;
+        control_scheme = -1;
+        sscanf(val, "%d", &control_scheme);
+        if ((control_scheme > 0) && (control_scheme < 5)) {
+            app_data.wsize = control_scheme;
             app_data.fullscreen = 0;
         } else {
             fprintf(stderr, "Invalid value for option %s\n", attr);
@@ -536,28 +536,28 @@ int parse_option(char *attr, char *val)
     } else if (!strcmp(attr, "scorefile")) {
         strcpy(scorefile, val);
     } else if (!strcmp(attr, "scoreadr")) {
-        t = -1;
-        sscanf(val, "%d", &t);
-        if ((t >= 0) && (t <= 255))
-            app_data.scoreaddress = t;
+        control_scheme = -1;
+        sscanf(val, "%d", &control_scheme);
+        if ((control_scheme >= 0) && (control_scheme <= 255))
+            app_data.scoreaddress = control_scheme;
         else {
             fprintf(stderr, "Invalid value for option %s\n", attr);
             return 0;
         }
     } else if (!strcmp(attr, "scoretype")) {
-        t = -1;
-        sscanf(val, "%d", &t);
-        if ((t >= 0) && (t <= 9999))
-            app_data.scoretype = t;
+        control_scheme = -1;
+        sscanf(val, "%d", &control_scheme);
+        if ((control_scheme >= 0) && (control_scheme <= 9999))
+            app_data.scoretype = control_scheme;
         else {
             fprintf(stderr, "Invalid value for option %s\n", attr);
             return 0;
         }
     } else if (!strcmp(attr, "score")) {
-        t = -1;
-        sscanf(val, "%d", &t);
-        if ((t >= 0) && (t <= 999999))
-            app_data.default_highscore = t;
+        control_scheme = -1;
+        sscanf(val, "%d", &control_scheme);
+        if ((control_scheme >= 0) && (control_scheme <= 999999))
+            app_data.default_highscore = control_scheme;
         else {
             fprintf(stderr, "Invalid value for option %s\n", attr);
             return 0;
