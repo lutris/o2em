@@ -76,4 +76,5 @@ dist:
 	cp o2em.png o2em-$(VERSION)
 	cp COPYING o2em-$(VERSION)
 	mv o2em-$(VERSION) o2em
-	tar cvf o2em-$(VERSION)-$(ARCH).tar.gz o2em
+	tar czf o2em-$(VERSION)-$(ARCH).tar.gz o2em
+	rm -r o2em
