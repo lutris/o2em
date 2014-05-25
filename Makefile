@@ -4,6 +4,8 @@ CFLAGS = -O3 -Wall -fomit-frame-pointer -I/usr/include
 LFLAGS = -s
 #LIBALLEG = /usr/lib/liballeg.so.4.2 -lalleg_unsharable
 LIBS=`allegro-config --libs`
+VERSION='1.18'
+ARCH=`uname -i`
 
 
 all: o2em dis48
@@ -67,3 +69,11 @@ vpp.o: vpp.c vpp.h types.h vpp_cset.h vmachine.h vdc.h
 score.o: score.c score.h vmachine.h types.h
 	$(CC) $(CFLAGS) -c score.c -o score.o
 
+dist:
+	mkdir -p o2em-$(VERSION)
+	mv o2em o2em-$(VERSION)
+	mv dis48 o2em-$(VERSION)
+	cp o2em.png o2em-$(VERSION)
+	cp COPYING o2em-$(VERSION)
+	mv o2em-$(VERSION) o2em
+	tar cvf o2em-$(VERSION)-$(ARCH).tar.gz o2em
