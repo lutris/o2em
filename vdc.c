@@ -790,7 +790,7 @@ void help(void)
         rest(25);
         if (NeedsPoll)
             poll_keyboard();
-        if (key[KEY_UP]) {
+        if (key[KEY_DOWN]) {
             counter++;
             if (counter >= 80)
                 counter = 80;
@@ -804,7 +804,7 @@ void help(void)
             for (way = 0; way < 8; way++)
                 finish_display();
         }
-        if (key[KEY_DOWN]) {
+        if (key[KEY_UP]) {
             counter--;
             if (counter <= 0)
                 counter = 0;
