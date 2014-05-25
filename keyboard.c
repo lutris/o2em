@@ -1,4 +1,3 @@
-
 /*
  *   O2EM Free Odyssey2 / Videopac+ Emulator
  *
@@ -13,7 +12,6 @@
  *
  *   Keyboard emulation
  */
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -160,12 +158,13 @@ int joykeystab[128];
 int syskeys[8] = {0,0,0,0,0,0,0,0};
 
 void set_defjoykeys(int jn, int sc){
-    if (sc)
+    printf("Setting controller %d to %d", jn, sc);
+    if (sc) {
         // TODO : Implement Azery / Qwerty handler
-        //set_joykeys(jn,KEY_W,KEY_S,KEY_A,KEY_D,KEY_SPACE);
-        set_joykeys(jn,KEY_Z, KEY_S, KEY_Q, KEY_D, KEY_SPACE);
-    else
+        set_joykeys(jn, KEY_W, KEY_S, KEY_A, KEY_D, KEY_SPACE);
+    } else {
         set_joykeys(jn,KEY_UP,KEY_DOWN,KEY_LEFT,KEY_RIGHT,KEY_L);
+    }
 }
 
 void set_defsystemkeys(void)
